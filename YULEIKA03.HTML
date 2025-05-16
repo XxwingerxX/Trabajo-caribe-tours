@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pago de Ticket de Autobús</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9em;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .ticket {
+      display: none;
+      background: white;
+      width: 350px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 2px dashed #333;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .logo img {
+      width: 120px;
+    }
+
+    .ticket h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .ticket p {
+      margin: 5px 0;
+    }
+
+    .line {
+      border-top: 1px dashed #333;
+      margin: 10px 0;
+    }
+
+    .ticket-footer {
+      text-align: center;
+      font-size: 0.8em;
+      color: #555;
+      margin-top: 10px;
+    }
+
+    .ticket-id {
+      text-align: center;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+
+    .print-btn {
+      display: block;
+      width: 200px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .print-btn:hover {
+      background-color: #0056b3;
+    }
+
+    @media print {
+      .container, .print-btn {
+        display: none;
+      }
+
+      .ticket {
+        display: block !important;
+        margin: 0;
+        border: none;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Pago con Tarjeta</h2>
+
+  <label for="nombre">Nombre del pasajero:</label>
+  <input type="text" id="nombre">
+  <div id="error-nombre" class="error">Nombre obligatorio.</div>
+
+  <label for="origen">Desde:</label>
+  <select id="origen">
+    <option value="">-- Seleccione --</option>
+    <option>Santo Domingo</option>
+    <option>Santiago</option>
+    <option>Puerto Plata</option>
+    <option>La Vega</option>
+  </select>
+  <div id="error-origen" class="error">Seleccione un origen.</div>
+
+  <label for="destino">Hasta:</label>
+  <select id="destino">
+    <option value="">-- Seleccione --</option>
+    <option>Santiago</option>
+    <option>Santo Domingo</option>
+    <option>Puerto Plata</option>
+    <option>La Vega</option>
+  </select>
+  <div id="error-destino" class="error">Seleccione un destino diferente al origen.</div>
+
+  <label for="tarjeta">Número de tarjeta:</label>
+  <input type="text" id="tarjeta" maxlength="16" placeholder="**** **** **** ****">
+  <div id="error-tarjeta" class="error">Tarjeta inválida.</div>
+
+  <label for="vencimiento">Fecha de vencimiento:</label>
+  <input type="month" id="vencimiento">
+  <div id="error-vencimiento" class="error">Fecha de vencimiento requerida.</div>
+
+  <label for="cvv">CVV:</label>
+  <input type="text" id="cvv" maxlength="3" placeholder="123">
+  <div id="error-cvv" class="error">CVV requerido.</div>
+
+  <button onclick="generarTicket()">Pagar y Generar Ticket</button>
+</div>
+
+<div class="ticket" id="ticket">
+  <div class="logo">
+    <img src="img/logoCaribeTours.png" alt="Logo de la empresa" />
+  </div>
+
+  <h2>Caribe Tours</h2>
+  <div class="ticket-id">
+    Ticket N.º: <span id="ticket-id">20250509-0001</span>
+  </div>
+
+  <p><strong>Pasajero:</strong> <span id="ticket-nombre"></span></p>
+  <p><strong>Desde:</strong> <span id="ticket-origen"></span></p>
+  <p><strong>Hasta:</strong> <span id="ticket-destino"></span></p>
+  <p><strong>Asiento:</strong> 15B</p>
+  <p><strong>Fecha:</strong> <span id="ticket-fecha"></span></p>
+  <p><strong>Hora de salida:</strong> 07:00 AM</p>
+
+  <div class="line"></div>
+
+  <p><strong>Precio:</strong> RD$ 500.00</p>
+  <p><strong>Forma de pago:</strong> Tarjeta</p>
+
+  <div class="line"></div>
+
+  <div class="ticket-footer">
+    Gracias por viajar con Caribe Tours<br />
+    www.caribetours.com.do
+  </div>
+</div>
+
+<button class="print-btn" id="btn-imprimir" style="display:none;" onclick="window.print()">🖨️ Imprimir Ticket</button>
+
+<script>
+  function validarTarjeta(numero) {
+    numero = numero.replace(/\s+/g, '');
+    let sum = 0;
+    let shouldDouble = false;
+
+    for (let i = numero.length - 1; i >= 0; i--) {
+      let digit = parseInt(numero.charAt(i));
+      if (shouldDouble) {
+        digit *= 2;
+        if (digit > 9) digit -= 9;
+      }
+      sum += digit;
+      shouldDouble = !shouldDouble;
+    }
+    return sum % 10 === 0;
+  }
+
+  function mostrarError(id, mostrar) {
+    document.getElementById(id).style.display = mostrar ? 'block' : 'none';
+  }
+
+  function generarTicket() {
+    const nombre = document.getElementById('nombre').value.trim();
+    const origen = document.getElementById('origen').value;
+    const destino = document.getElementById('destino').value;
+    const tarjeta = document.getElementById('tarjeta').value.trim();
+    const vencimiento = document.getElementById('vencimiento').value;
+    const cvv = document.getElementById('cvv').value.trim();
+
+    let errores = false;
+
+    mostrarError('error-nombre', !nombre);
+    mostrarError('error-origen', !origen);
+    mostrarError('error-destino', !destino || destino === origen);
+    mostrarError('error-tarjeta', !validarTarjeta(tarjeta));
+    mostrarError('error-vencimiento', !vencimiento);
+    mostrarError('error-cvv', !cvv || cvv.length < 3);
+
+    if (!nombre || !origen || !destino || destino === origen || 
+        !validarTarjeta(tarjeta) || !vencimiento || !cvv || cvv.length < 3) {
+      return;
+    }
+
+    document.getElementById('ticket-nombre').textContent = nombre;
+    document.getElementById('ticket-origen').textContent = origen;
+    document.getElementById('ticket-destino').textContent = destino;
+    document.getElementById('ticket-fecha').textContent = new Date().toLocaleDateString('es-DO');
+
+    document.getElementById('ticket').style.display = 'block';
+    document.getElementById('btn-imprimir').style.display = 'block';
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }
+</script>
+
+
+
+</body>
+</html>

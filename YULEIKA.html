@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Factura de Pago</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .invoice-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .invoice-details {
+      margin-top: 30px;
+    }
+
+    .invoice-details p {
+      margin: 5px 0;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .table th, .table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .table th {
+      background-color: #eee;
+    }
+
+    .total {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<div class="invoice-container">
+  <h1>FACTURA</h1>
+  <h2>Gracias por su compra</h2>
+
+  <div class="invoice-details">
+    <p><strong>Factura #:</strong> 000123</p>
+    <p><strong>Fecha:</strong> 09/05/2025</p>
+    <p><strong>Cliente:</strong> Juan Pérez</p>
+    <p><strong>Email:</strong> juan.perez@email.com</p>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gorra Roja</td>
+        <td>1</td>
+        <td>$10.00</td>
+        <td>$10.00</td>
+      </tr>
+      <tr>
+        <td>Gorra Negra</td>
+        <td>2</td>
+        <td>$12.00</td>
+        <td>$24.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="total">Total a pagar: $34.00</p>
+
+  <div class="footer">
+    <p>TryHatMe S.A. - www.tryhatme.com</p>
+    <p>Esta factura se ha generado automáticamente.</p>
+  </div>
+</div>
+
+</body>
+</html>
